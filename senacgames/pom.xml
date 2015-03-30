@@ -10,13 +10,15 @@
 		<jdk.version>1.7</jdk.version>
 		<junit.version>4.11</junit.version>
 		<primefaces.version>5.1</primefaces.version>
-		<faces.version>2.2.2</faces.version>
-		<servlet.version>3.0.1</servlet.version>
+		<faces.version>2.2.10</faces.version>
+		<servlet.version>2.5</servlet.version>
+		<!-- <servlet.version>3.0.1</servlet.version> -->
 		<jstl.version>1.2</jstl.version>
 		<jsp.version>2.1</jsp.version>
 		<el.version>2.2</el.version>
 		<javaee.version>7.0</javaee.version>
 	</properties>
+	<!--
 	<repositories>
 		<repository>
 			<id>prime-repo</id>
@@ -25,6 +27,7 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+	-->
 	<dependencies>
 		<!-- PrimeFaces -->
 		<dependency>
@@ -44,30 +47,48 @@
 			<artifactId>jsf-impl</artifactId>
 			<version>${faces.version}</version>
 		</dependency>
-		<!--
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId> 
 			<version>${jstl.version}</version>
+			<scope>provided</scope>
 		</dependency>
-		-->
+		
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>${javaee.version}</version>
+			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
+			<artifactId>servlet-api</artifactId>
 			<version>${servlet.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency> <groupId>javax.servlet.jsp</groupId> <artifactId>jsp-api</artifactId> 
-			<version>${jsp.version}</version> </dependency> -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId> 
+			<version>${jsp.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- EL -->
-		<!-- <dependency> <groupId>org.glassfish.web</groupId> <artifactId>el-impl</artifactId> 
-			<version>2.2</version> </dependency> -->
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>el-impl</artifactId> 
+			<version>${el.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
