@@ -1,0 +1,89 @@
+<ui:composition template="/WEB-INF/template/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" >
+	<ui:define name="title">Gerenciar Games</ui:define>
+	<ui:define name="content">
+	<p:outputPanel id="pagina" rendered="#{loginMB.tipoUsuario eq loginMB.funcionario}" >
+		<p:outputPanel>
+			<h4>Cadastrar Funcionário</h4>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<h:form id="formulario" >
+				<h:panelGrid id="panelFormulario" columns="3" cellpadding="5">
+					<p:outputLabel for="inputId" value="Id" rendered="#{funcionarioMB.paginaModo eq 'editar'}" />
+					<p:inputText id="inputId" value="#{funcionarioMB.funcionario.id}" requiredMessage="Este campo é obrigatório" readonly="true" rendered="#{funcionarioMB.paginaModo eq 'editar'}" />
+					<p:message for="inputId" rendered="#{funcionarioMB.paginaModo eq 'editar'}" />
+
+					<p:outputLabel for="inputNome" value="Nome" />
+					<p:inputText id="inputNome" value="#{funcionarioMB.funcionario.nome}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputNome" />
+					
+					<p:outputLabel for="inputDataNascimento" value="Data de Nascimento" />
+					<p:calendar id="inputDataNascimento" value="#{funcionarioMB.funcionario.dataNascimento}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputDataNascimento" />
+					
+					<p:outputLabel for="selectSexo" value="Sexo" />
+					<p:selectOneMenu value="#{funcionarioMB.funcionario.sexo}" id="selectSexo" label="sexo" required="true" requiredMessage="Este campo é obrigatório" >
+						<f:selectItem itemLabel=""/>
+						<f:selectItems value="#{funcionarioMB.sexos}"  var="temp" itemValue="#{temp}" itemLabel="#{temp.value}"/>
+					</p:selectOneMenu>
+					<p:message for="selectSexo" />
+					
+					<p:outputLabel value="Login"/>
+					<p:inputText id="inputLogin" value="#{funcionarioMB.funcionario.login}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputLogin" />
+					
+					<p:outputLabel for="inputSenha" value="Senha" />
+					<p:password id="inputSenha" value="#{funcionarioMB.funcionario.senha}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputSenha" />
+					
+				</h:panelGrid>
+				<h:panelGroup rendered="#{funcionarioMB.paginaModo eq 'editar'}">
+		                <p:commandButton value="Editar" action="#{funcionarioMB.editar()}" icon="ui-icon-check" update="formulario growl table" />
+		        </h:panelGroup>
+				<h:panelGroup rendered="#{funcionarioMB.paginaModo eq 'adicionar'}">
+						<p:commandButton value="Adicionar" action="#{funcionarioMB.adicionar()}" icon="ui-icon-check" update="formulario growl table" />
+				</h:panelGroup>
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel>
+			<h4>Funcionários Cadastrados</h4>
+			<p:dataTable value="#{funcionarioMB.lista}" var="funcionario" cellpadding="1" id="table" >
+				<p:column headerText="ID">
+					<h:outputText value="#{funcionario.id}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{funcionario.nome}" />
+				</p:column>
+				<p:column headerText="Data Nascimento">
+					<h:outputText value="#{funcionario.dataNascimento}"  >
+						<f:convertDateTime timeStyle="short"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Sexo">
+					<h:outputText value="#{funcionario.sexo.value}" />
+				</p:column>
+				<p:column headerText="Login">
+					<h:outputText value="#{funcionario.login}" />
+				</p:column>
+				<p:column>
+					<h:panelGroup>
+						<h:form>
+							<p:commandButton action="#{funcionarioMB.preparaEditar(funcionario)}" icon="ui-icon-pencil" update="formulario growl">
+								 <p:ajax update="formulario" resetValues="true" />
+							</p:commandButton>
+							<p:commandButton action="#{funcionarioMB.remover(funcionario)}" icon="ui-icon-trash" update="table" />
+						</h:form>
+					</h:panelGroup>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{loginMB.tipoUsuario ne loginMB.funcionario}" >
+		Disponivel Somente para Funcionarios
+	</p:outputPanel>
+	</ui:define>
+</ui:composition>

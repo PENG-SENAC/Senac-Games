@@ -1,0 +1,89 @@
+<ui:composition template="/WEB-INF/template/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" >
+	<ui:define name="title">Gerenciar Games</ui:define>
+	<ui:define name="content">
+	<p:outputPanel id="pagina" rendered="#{loginMB.tipoUsuario eq loginMB.funcionario}" >
+		<p:outputPanel>
+			<h4>Cadastrar Clientes</h4>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<h:form id="formulario" >
+				<h:panelGrid id="panelFormulario" columns="3" cellpadding="5">
+					<p:outputLabel for="inputId" value="Id" rendered="#{clienteMB.paginaModo eq 'editar'}" />
+					<p:inputText id="inputId" value="#{clienteMB.cliente.id}" requiredMessage="Este campo é obrigatório" readonly="true" rendered="#{clienteMB.paginaModo eq 'editar'}" />
+					<p:message for="inputId" rendered="#{clienteMB.paginaModo eq 'editar'}" />
+
+					<p:outputLabel for="inputNome" value="Nome" />
+					<p:inputText id="inputNome" value="#{clienteMB.cliente.nome}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputNome" />
+					
+					<p:outputLabel for="inputDataNascimento" value="Data de Nascimento" />
+					<p:calendar id="inputDataNascimento" value="#{clienteMB.cliente.dataNascimento}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputDataNascimento" />
+					
+					<p:outputLabel for="selectSexo" value="Sexo" />
+					<p:selectOneMenu value="#{clienteMB.cliente.sexo}" id="selectSexo" label="sexo" required="true" requiredMessage="Este campo é obrigatório" >
+						<f:selectItem itemLabel=""/>
+						<f:selectItems value="#{clienteMB.sexos}"  var="temp" itemValue="#{temp}" itemLabel="#{temp.value}"/>
+					</p:selectOneMenu>
+					<p:message for="selectSexo" />
+					
+					<p:outputLabel value="Login"/>
+					<p:inputText id="inputLogin" value="#{clienteMB.cliente.login}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputLogin" />
+					
+					<p:outputLabel for="inputSenha" value="Senha" />
+					<p:password id="inputSenha" value="#{clienteMB.cliente.senha}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputSenha" />
+					
+				</h:panelGrid>
+				<h:panelGroup rendered="#{clienteMB.paginaModo eq 'editar'}">
+		                <p:commandButton value="Editar" action="#{clienteMB.editar()}" icon="ui-icon-check" update="formulario growl table" />
+		        </h:panelGroup>
+				<h:panelGroup rendered="#{clienteMB.paginaModo eq 'adicionar'}">
+						<p:commandButton value="Adicionar" action="#{clienteMB.adicionar()}" icon="ui-icon-check" update="formulario growl table" />
+				</h:panelGroup>
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel>
+			<h4>Clientes Cadastrados</h4>
+			<p:dataTable value="#{clienteMB.lista}" var="cliente" cellpadding="1" id="table" >
+				<p:column headerText="ID">
+					<h:outputText value="#{cliente.id}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{cliente.nome}" />
+				</p:column>
+				<p:column headerText="Data Nascimento">
+					<h:outputText value="#{cliente.dataNascimento}"  >
+						<f:convertDateTime timeStyle="short"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Sexo">
+					<h:outputText value="#{cliente.sexo.value}" />
+				</p:column>
+				<p:column headerText="Login">
+					<h:outputText value="#{cliente.login}" />
+				</p:column>
+				<p:column>
+					<h:panelGroup>
+						<h:form>
+							<p:commandButton action="#{clienteMB.preparaEditar(cliente)}" icon="ui-icon-pencil" update="formulario growl">
+								 <p:ajax update="formulario" resetValues="true" />
+							</p:commandButton>
+							<p:commandButton action="#{clienteMB.remover(cliente)}" icon="ui-icon-trash" update="table" />
+						</h:form>
+					</h:panelGroup>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{loginMB.tipoUsuario ne loginMB.funcionario}" >
+		Disponivel Somente para Funcionarios
+	</p:outputPanel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+<h:head>
+<title>Senac Web Motors - <ui:insert name="title">Home</ui:insert></title>
+</h:head>
+<h:body>
+	<div class="col-xs-10 col-xs-offset-1">
+		<div class="menuUser">
+			<ui:insert name="menuUser">
+				<ui:include src="navheader.xhtml" />
+			</ui:insert>
+		</div>
+		<div class="header">
+			<ui:insert name="header">
+				<ui:include src="header.xhtml" />
+			</ui:insert>
+		</div>
+		<div class="nav">
+			<ui:insert name="navbar">
+				<ui:include src="navbar.xhtml" />
+			</ui:insert>
+		</div>
+		<div class="content">
+			<ui:insert name="content"></ui:insert>
+		</div>
+		<div class="footer">
+			<ui:insert name="footer">
+				<ui:include src="footer.xhtml" />
+			</ui:insert>
+		</div>
+	</div>
+</h:body>
+</html>

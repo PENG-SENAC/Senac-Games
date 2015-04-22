@@ -1,0 +1,23 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form>
+		<p:outputPanel rendered="#{!loginMB.logado}">
+			<p:menubar >
+				<p:submenu icon="ui-user" label="Login | Cadastro" style="float: right">
+					<p:menuitem value="Login" url="login.xhtml" />
+					<p:menuitem value="Criar Conta" url="cadastro-cliente.xhtml"/>
+				</p:submenu>
+			</p:menubar>
+		</p:outputPanel>
+		<p:outputPanel rendered="#{loginMB.logado}">
+			<p:menubar >
+				<p:submenu icon="ui-user" label="#{loginMB.login}" style="float: right">
+					<p:menuitem value="Sair" action="#{loginMB.sair}" />
+				</p:submenu>
+			</p:menubar>
+		</p:outputPanel>
+	</h:form>
+</ui:fragment>

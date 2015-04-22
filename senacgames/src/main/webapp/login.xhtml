@@ -1,0 +1,33 @@
+<ui:composition template="/WEB-INF/template/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" >
+	<ui:define name="title">Login</ui:define>
+	<ui:define name="content">
+		<p:outputPanel rendered="#{!loginMB.logado}">
+			<h:form>
+				<p:growl id="growl" showDetail="true" sticky="true" />
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="inputLogin" value="Login"/>
+					<p:inputText id="inputLogin" value="#{loginMB.login}" required="true" requiredMessage="Login não deve ser vazio"/>
+					<p:message for="inputLogin"/>
+					
+					<p:outputLabel for="inputSenha" value="Senha" />
+					<p:password id="inputSenha" value="#{loginMB.senha}" required="true" requiredMessage="Senha não deve ser vazia"/>
+					<p:message for="inputSenha"/>
+				</h:panelGrid>
+				<p:commandButton action="#{loginMB.fazerLogin}" value="Entrar" icon="ui-icon-check" update="@all" />
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel rendered="#{loginMB.logado}">
+			<h:form>
+				<h4>Você já esta logado, caso queira sair, clique em sair.</h4>										
+				<p:commandButton action="#{loginMB.sair}" value="Sair" icon="ui-icon-check" update="@all"/>
+			</h:form>
+		</p:outputPanel>
+	</ui:define>
+	<ui:debug />
+</ui:composition>

@@ -1,0 +1,94 @@
+<ui:composition template="/WEB-INF/template/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" >
+	<ui:define name="title">Gerenciar Games</ui:define>
+	<ui:define name="content">
+	<p:outputPanel id="pagina" rendered="#{loginMB.tipoUsuario eq loginMB.funcionario}" >
+		<p:outputPanel>
+			<h4>Cadastrar Games</h4>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<h:form id="formulario" >
+				<h:panelGrid id="panelFormulario" columns="3" cellpadding="5">
+					<p:outputLabel for="inputId" value="Id" rendered="#{gameMB.paginaModo eq 'editar'}" />
+					<p:inputText id="inputId" value="#{gameMB.game.id}" requiredMessage="Este campo é obrigatório" readonly="true" rendered="#{gameMB.paginaModo eq 'editar'}" />
+					<p:message for="inputId" rendered="#{gameMB.paginaModo eq 'editar'}" />
+					
+					<p:outputLabel for="inputNome" value="Nome" />
+					<p:inputText id="inputNome" value="#{gameMB.game.nome}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputNome" />
+					
+					<p:outputLabel for="inputDescricao" value="Descrição" />
+					<p:inputTextarea id="inputDescricao" value="#{gameMB.game.descricao}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputDescricao" />
+					
+					<p:outputLabel for="selectCategoria" value="Categoria" />
+					<p:selectOneMenu value="#{gameMB.game.categoria}" id="selectCategoria" label="categoria" required="true"  requiredMessage="Este campo é obrigatório" >
+						<f:selectItem itemLabel=""/>
+						<f:selectItems value="#{gameMB.categorias}"  var="temp" itemValue="#{temp}" itemLabel="#{temp.value}"/>
+					</p:selectOneMenu>
+					<p:message for="selectCategoria" />
+					
+					<p:outputLabel for="selectFaixaEtaria" value="Faixa Etária" />
+					<p:selectOneMenu value="#{gameMB.game.faixaEtaria}" id="selectFaixaEtaria" label="faixaEtaria" required="true"  requiredMessage="Este campo é obrigatório" >
+						<f:selectItem itemLabel=""/>
+						<f:selectItems value="#{gameMB.faixaEtarias}"  var="temp" itemValue="#{temp}" itemLabel="#{temp.value}"/>
+					</p:selectOneMenu>
+					<p:message for="selectFaixaEtaria" />
+					
+					<p:outputLabel for="inputPreco" value="Preço" />
+					<p:inputText id="inputPreco" value="#{gameMB.game.preco}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputPreco" />
+				</h:panelGrid>
+				<h:panelGroup rendered="#{gameMB.paginaModo eq 'editar'}">
+		                <p:commandButton value="Editar" action="#{gameMB.editar()}" icon="ui-icon-check" update="formulario growl table" />
+		        </h:panelGroup>
+				<h:panelGroup rendered="#{gameMB.paginaModo eq 'adicionar'}">
+						<p:commandButton value="Adicionar" action="#{gameMB.adicionar()}" icon="ui-icon-check" update="formulario growl table" />
+				</h:panelGroup>
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel>
+			<h4>Games Cadastrados</h4>
+			<p:dataTable value="#{gameMB.lista}" var="game" cellpadding="1" id="table" >
+				<p:column headerText="ID">
+					<h:outputText value="#{game.id}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{game.nome}" />
+				</p:column>
+				<p:column headerText="Descrição">
+					<h:outputText value="#{game.descricao}" />
+				</p:column>
+				<p:column headerText="Categoria">
+					<h:outputText value="#{game.categoria}" />
+				</p:column>
+				<p:column headerText="Faixa Etária">
+					<h:outputText value="#{game.faixaEtaria.value}" />
+				</p:column>
+				<p:column headerText="Preço">
+					<h:outputText value="#{game.preco}">
+						<f:convertNumber currencySymbol="R$" type="currency" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:panelGroup>
+						<h:form>
+							<p:commandButton action="#{gameMB.preparaEditar(game)}" icon="ui-icon-pencil" update="formulario growl">
+								 <p:ajax update="formulario" resetValues="true" />
+							</p:commandButton>
+							<p:commandButton action="#{gameMB.remover(game)}" icon="ui-icon-trash" update="table" />
+						</h:form>
+					</h:panelGroup>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{loginMB.tipoUsuario ne loginMB.funcionario}" >
+		Disponivel Somente para Funcionarios
+	</p:outputPanel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,102 @@
+<ui:composition template="/WEB-INF/template/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" >
+	<ui:define name="title">Gerenciar Clientes</ui:define>
+	<ui:define name="content">
+		<p:outputPanel>
+			<h:form>
+				<p:growl id="growl" showDetail="true" sticky="true" />  
+				<h:panelGrid id="grid" columns="3" cellpadding="5">
+					<p:outputLabel for="inputNome" value="Nome" />
+					<p:inputText id="inputNome" value="#{clienteMB.cliente.nome}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputNome" />
+					
+					<p:outputLabel for="inputDataNascimento" value="Data de Nascimento" />
+					<p:calendar id="inputDataNascimento" value="#{clienteMB.cliente.dataNascimento}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputDataNascimento" />
+					
+					<p:outputLabel for="selectSexo" value="Sexo" />
+					<p:selectOneMenu value="#{clienteMB.cliente.sexo}" id="selectSexo" label="sexo" required="true" requiredMessage="Este campo é obrigatório" >
+						<f:selectItem itemLabel=""/>
+						<f:selectItems value="#{clienteMB.sexos}" />
+					</p:selectOneMenu>
+					<p:message for="selectSexo" />
+					
+					<p:outputLabel value="Login"/>
+					<p:inputText id="inputLogin" value="#{clienteMB.cliente.login}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputLogin" />
+					
+					<p:outputLabel for="inputSenha" value="Senha" />
+					<p:password id="inputSenha" value="#{clienteMB.cliente.senha}" required="true" requiredMessage="Este campo é obrigatório" />
+					<p:message for="inputSenha" />
+					
+					<p:commandButton value="Entrar" action="#{clienteMB.grava()}" icon="ui-icon-check" update="grid growl table" />
+				</h:panelGrid>
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel layout="OLA">
+			<h4>Clientes cadastrados</h4>
+			<p:dataTable value="#{clienteMB.lista}" var="cliente" cellpadding="1" id="table" >
+				<p:column headerText="ID">
+					<h:outputText value="#{cliente.id}" />
+				</p:column>
+				<p:column headerText="Login">
+					<h:outputText value="#{cliente.login}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{cliente.nome}" />
+				</p:column>
+				<p:column headerText="Sexo">
+					<h:outputText value="#{cliente.sexo}" />
+				</p:column>
+				<p:column headerText="Data Nascimento">
+					<h:outputText value="#{cliente.dataNascimento}"  >
+						<f:convertDateTime timeStyle="short"/>
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:form>
+						<p:commandButton id="editar" value="Editar" icon="ui-icon-edit" update="table" type="button" onclick="PF('dlg').show();" />
+						<p:dialog header="Login" widgetVar="dlg" resizable="false">
+							<p:growl id="growl" showDetail="true" sticky="true" />
+							<h:panelGrid id="grid2" columns="3" cellpadding="5">
+								<p:outputLabel for="inputNome" value="Nome" />
+								<p:inputText id="inputNome" value="#{cliente.nome}" required="true" requiredMessage="Este campo é obrigatório" />
+								<p:message for="inputNome" />
+								
+								<p:outputLabel for="inputDataNascimento" value="Data de Nascimento" />
+								<p:calendar id="inputDataNascimento" value="#{cliente.dataNascimento}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Este campo é obrigatório" />
+								<p:message for="inputDataNascimento" />
+								
+								<p:outputLabel for="selectSexo" value="Sexo" />
+								<p:selectOneMenu value="#{cliente.sexo}" id="selectSexo" label="sexo" required="true"  requiredMessage="Este campo é obrigatório" >
+									<f:selectItem itemLabel=""/>
+									<f:selectItems value="#{clienteMB.sexos}" />
+								</p:selectOneMenu>
+								<p:message for="selectSexo" />
+								
+								<p:outputLabel value="Login"/>
+								<p:inputText id="inputLogin" value="#{cliente.login}" required="true" requiredMessage="Este campo é obrigatório" />
+								<p:message for="inputLogin" />
+								
+								<p:outputLabel for="inputSenha" value="Senha" />
+								<p:password id="inputSenha" value="#{cliente.senha}" required="true" requiredMessage="Este campo é obrigatório" />
+								<p:message for="inputSenha" />
+								<p:commandButton value="Gravar" action="#{clienteMB.editItem(cliente)}" icon="ui-icon-edit" update="grid2 growl table" />
+							</h:panelGrid>
+					    </p:dialog>            
+					</h:form>
+				</p:column>
+				<p:column>
+				<h:form>
+					<p:commandButton action="#{clienteMB.removeItem(cliente)}" value="Remover" update="table" />
+				</h:form>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</ui:define>
+</ui:composition>

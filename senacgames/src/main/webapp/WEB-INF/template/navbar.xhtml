@@ -1,0 +1,16 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:form>  
+    <p:growl id="messages"/>
+    <p:menubar>
+       <p:menuitem value="Home" url="index.xhtml" icon="ui-icon-home" />
+       <p:menuitem value="Gerenciar Games" url="gerenciar-games.xhtml" icon="ui-icon-gear" rendered="#{loginMB.tipoUsuario eq loginMB.funcionario}" />
+       <p:menuitem value="Gerenciar Funcionarios" url="gerenciar-funcionarios.xhtml" icon="ui-icon-gear" rendered="#{loginMB.tipoUsuario eq loginMB.funcionario}" />
+       <p:menuitem value="Gerenciar Clientes" url="gerenciar-clientes.xhtml" icon="ui-icon-gear" rendered="#{loginMB.tipoUsuario eq loginMB.funcionario}" />
+       <p:menuitem value="Sobre" url="sobre.xhtml" />
+    </p:menubar>
+</h:form>
+</ui:fragment>

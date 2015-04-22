@@ -1,0 +1,96 @@
+<ui:composition template="/WEB-INF/template/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">Home</ui:define>
+	<ui:define name="content" >
+	<p:outputPanel id="pagina" rendered="#{loginMB.tipoUsuario eq loginMB.cliente}" >
+		<p:outputPanel rendered="#{!carrinhoComprasMB.compraFinalizada}">
+			<h1>Games</h1>
+			<h:form>
+				<p:dataTable value="#{gameMB.lista}" var="game" cellpadding="1" id="table" >
+					<p:column headerText="ID">
+						<h:outputText value="#{game.id}" />
+					</p:column>
+					<p:column headerText="Nome">
+						<h:outputText value="#{game.nome}" />
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{game.descricao}" />
+					</p:column>
+					<p:column headerText="Categoria">
+						<h:outputText value="#{game.categoria}" />
+					</p:column>
+					<p:column headerText="Faixa Etária">
+						<h:outputText value="#{game.faixaEtaria.value}" />
+					</p:column>
+					<p:column headerText="Preço Unitário">
+					<h:outputText value="#{game.preco}">
+						<f:convertNumber currencySymbol="R$" type="currency" />
+					</h:outputText>
+					</p:column>
+					<p:column headerText="Adicionar ao Carrinho">
+						<p:commandButton action="#{carrinhoComprasMB.insereItem(game)}" icon="ui-icon-cart" update="carrinho" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel id="carrinho" rendered="#{!carrinhoComprasMB.compraFinalizada}" >
+			<h1>Carrinho de Compras</h1>
+			<h:form>
+				<p:dataTable value="#{carrinhoComprasMB.itens}" var="item" cellpadding="1" id="table" >
+					<p:column headerText="ID">
+						<h:outputText value="#{item.produto.id}" />
+					</p:column>
+					<p:column headerText="Nome">
+						<h:outputText value="#{item.produto.nome}" />
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{item.produto.descricao}" />
+					</p:column>
+					<p:column headerText="Categoria">
+						<h:outputText value="#{item.produto.categoria}" />
+					</p:column>
+					<p:column headerText="Faixa Etária">
+						<h:outputText value="#{item.produto.faixaEtaria.value}" />
+					</p:column>
+					<p:column headerText="Preço Unitário">
+					<h:outputText value="#{item.produto.preco}">
+						<f:convertNumber currencySymbol="R$" type="currency" />
+					</h:outputText>
+					</p:column>
+					<p:column headerText="Quantidade">
+						<p:spinner id="inputQuantidade" value="#{item.quantidade}" min="1" max="999" size="3" required="true"  >
+							<p:ajax update="carrinho" process="@form" /> 
+						</p:spinner>
+					</p:column>
+					<p:column headerText="Valor" id="valorTotal">
+					<h:outputText value="#{item.valorTotal}" >
+						<f:convertNumber currencySymbol="R$" type="currency" />
+					</h:outputText>
+					</p:column>
+					<p:column headerText="Remover">
+						<p:commandButton action="#{carrinhoComprasMB.removeItem(item)}" icon="ui-icon-trash" update="carrinho" />
+					</p:column>
+				</p:dataTable>
+				<p:outputPanel>
+					<p>Quantidade Total de Itens: <h:outputText value="#{carrinhoComprasMB.quantidadeDeItensTotal}"></h:outputText></p>
+					<p>Valor Total das compras: <h:outputText value="Valor Total #{carrinhoComprasMB.valorItensTotal}"><f:convertNumber currencySymbol="R$" type="currency" /></h:outputText></p>
+					<p:commandButton action="#{carrinhoComprasMB.finalizarCompras}" value="Finalizar Compras" update="@all" />
+				</p:outputPanel>
+			</h:form>
+		</p:outputPanel>
+		<p:outputPanel rendered="#{carrinhoComprasMB.compraFinalizada}">
+			<h3>Compras Finalizadas</h3>
+			<h:form>
+				<p:commandButton action="#{carrinhoComprasMB.comprarNovamente}" value="Clique aqui para comprar novamente" update="pagina" />
+			</h:form>
+		</p:outputPanel>
+	</p:outputPanel>
+	<p:outputPanel rendered="#{loginMB.tipoUsuario ne loginMB.cliente}">
+		<h3>Para fazer compras é necessário fazer login como cliente</h3>
+	</p:outputPanel>
+	</ui:define>
+</ui:composition>
